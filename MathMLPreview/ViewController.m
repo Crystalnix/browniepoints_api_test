@@ -39,6 +39,7 @@ static NSString *exerciseURLString = @"http://browniepoints.com/api/test.html";
 		exerciseWebView.hidden = YES;
 	}
 	getExerciseButton.enabled = YES;
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 #pragma mark - View lifecycle
@@ -105,6 +106,7 @@ static NSString *exerciseURLString = @"http://browniepoints.com/api/test.html";
 		NSURLRequest *reqeust = [NSURLRequest requestWithURL:[NSURL URLWithString:exerciseURLString]];
 		[exerciseWebView loadRequest:reqeust];
 		getExerciseButton.enabled = NO; // Prevent from clicking second time
+		[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 	}
 }
 
