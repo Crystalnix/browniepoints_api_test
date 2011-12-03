@@ -22,13 +22,13 @@
 		03E405F9148A31DC0027C4D7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		03E405FB148A31DC0027C4D7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		03E405FD148A31DC0027C4D7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		03E40601148A31DC0027C4D7 /* MathMLPreview-Info.plist */ = {isa = PBXFileReference; path = "MathMLPreview-Info.plist"; sourceTree = "<group>"; };
+		03E40601148A31DC0027C4D7 /* MathMLPreview-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MathMLPreview-Info.plist"; sourceTree = "<group>"; };
 		03E40603148A31DC0027C4D7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		03E40605148A31DC0027C4D7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		03E40607148A31DC0027C4D7 /* MathMLPreview-Prefix.pch */ = {isa = PBXFileReference; path = "MathMLPreview-Prefix.pch"; sourceTree = "<group>"; };
-		03E40608148A31DC0027C4D7 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		03E40607148A31DC0027C4D7 /* MathMLPreview-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MathMLPreview-Prefix.pch"; sourceTree = "<group>"; };
+		03E40608148A31DC0027C4D7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		03E40609148A31DC0027C4D7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		03E4060B148A31DC0027C4D7 /* ViewController.h */ = {isa = PBXFileReference; path = ViewController.h; sourceTree = "<group>"; };
+		03E4060B148A31DC0027C4D7 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		03E4060C148A31DC0027C4D7 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		03E4060F148A31DC0027C4D7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -237,6 +237,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MathMLPreview/MathMLPreview-Prefix.pch";
 				INFOPLIST_FILE = "MathMLPreview/MathMLPreview-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -248,6 +249,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MathMLPreview/MathMLPreview-Prefix.pch";
 				INFOPLIST_FILE = "MathMLPreview/MathMLPreview-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
