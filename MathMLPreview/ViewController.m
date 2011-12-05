@@ -8,15 +8,27 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "ViewController.h"
+#import "ASIHTTPRequest.h"
+#import "ASIFormDataRequest.h"
+#import "SBJson.h"
+
+
+@interface ViewController ()
+@property (retain, nonatomic) NSOperationQueue *connectionQueue;
+@end
+
 
 @implementation ViewController
 
 @synthesize getExerciseButton;
 @synthesize exerciseWebView;
+@synthesize connectionQueue;
 
 
 // Default address for the HTTP request
 static NSString *exerciseURLString = @"http://browniepoints.com/api/test.html";
+// Points to the desired request point for API
+static NSString *exerciseAPI = @"http://browniepoints.com/api/";
 
 
 - (void)didReceiveMemoryWarning
@@ -39,7 +51,18 @@ static NSString *exerciseURLString = @"http://browniepoints.com/api/test.html";
 		exerciseWebView.hidden = YES;
 	}
 	getExerciseButton.enabled = YES;
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+}
+
+- (void)throwAlertMessage:(NSString *)messageText
+{
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error occurred"
+													message:messageText
+												   delegate:nil
+										  cancelButtonTitle:@"Dismiss"
+										  otherButtonTitles:nil,
+						  nil];
+	[alert show];
+	[alert release];
 }
 
 #pragma mark - View lifecycle
@@ -48,6 +71,7 @@ static NSString *exerciseURLString = @"http://browniepoints.com/api/test.html";
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+	connectionQueue = [[NSOperationQueue alloc] init];
 
 	// Set rounded corners for the button
 	getExerciseButton.layer.cornerRadius = 10.f;
@@ -92,6 +116,8 @@ static NSString *exerciseURLString = @"http://browniepoints.com/api/test.html";
 }
 
 - (void)dealloc {
+	[self.connectionQueue cancelAllOperations];
+	[connectionQueue release];
     [getExerciseButton release];
     [exerciseWebView release];
     [super dealloc];
@@ -103,10 +129,20 @@ static NSString *exerciseURLString = @"http://browniepoints.com/api/test.html";
 		// Exercise is loaded, set to "clean" state
 		[self setExerciseLoaded:NO];
 	} else {
-		NSURLRequest *reqeust = [NSURLRequest requestWithURL:[NSURL URLWithString:exerciseURLString]];
-		[exerciseWebView loadRequest:reqeust];
+		if ([connectionQueue operationCount]) {
+			[connectionQueue cancelAllOperations];
+			// It's better to figure out why request is pending,
+			// but let's rely on network callback (say, in case of connection problem)
+			return;
+		}
+
 		getExerciseButton.enabled = NO; // Prevent from clicking second time
-		[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+
+		ASIFormDataRequest *request =
+			[ASIFormDataRequest requestWithURL:[NSURL URLWithString:exerciseAPI]];
+		[request addPostValue:@"getexercise" forKey:@"action"];
+		[request setDelegate:self];
+		[connectionQueue addOperation:request];
 	}
 }
 
@@ -114,14 +150,7 @@ static NSString *exerciseURLString = @"http://browniepoints.com/api/test.html";
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error occurred"
-													message:[error localizedDescription]
-												   delegate:nil
-										  cancelButtonTitle:@"Dismiss"
-										  otherButtonTitles:nil,
-						  nil];
-	[alert show];
-	[alert release];
+	[self throwAlertMessage:[error localizedDescription]];
 	[self setExerciseLoaded:NO];
 }
 
@@ -130,6 +159,35 @@ static NSString *exerciseURLString = @"http://browniepoints.com/api/test.html";
 	[self setExerciseLoaded:YES];
 }
 
+#pragma mark - ASIHTTPRequestDelegate
+
+- (void)requestFailed:(ASIHTTPRequest *)request
+{
+	[self throwAlertMessage:[[request error] localizedDescription]];
+	[self setExerciseLoaded:NO];
+}
+
+- (void)requestFinished:(ASIHTTPRequest *)request
+{
+	// Create a dictionary from return data
+	SBJsonParser *parser = [[SBJsonParser alloc] init];
+	NSDictionary *responseDict = [parser objectWithData:[request responseData]];
+	[parser release];
+
+	// Test return value
+	if ([responseDict isKindOfClass:[NSDictionary class]] == NO) {
+		NSLog(@"[Error] Unexpected return value");
+		NSLog(@"[Details] %@", [request responseString]);
+	}
+
+	// Load webview content with data in the memory
+	NSString *htmlString = [responseDict objectForKey:@"exercise"];
+	NSData *htmlData = [htmlString dataUsingEncoding:NSUTF8StringEncoding];
+	[exerciseWebView loadData:htmlData
+					 MIMEType:@"text/html"
+			 textEncodingName:@"utf-8"
+					  baseURL:nil];
+}
 
 @end
 
