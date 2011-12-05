@@ -192,13 +192,11 @@
 		03E405EA148A31DC0027C4D7 = {
 			isa = PBXGroup;
 			children = (
-				036ED0A5148CB46300B07631 /* SystemConfiguration.framework */,
-				036ED0A3148CB44D00B07631 /* MobileCoreServices.framework */,
-				036ED0A1148CB42D00B07631 /* libz.dylib */,
 				036ED079148CA39500B07631 /* json-framework */,
 				036ED078148CA33800B07631 /* ASIHTTPRequest */,
 				03E405FF148A31DC0027C4D7 /* MathMLPreview */,
 				03E405F8148A31DC0027C4D7 /* Frameworks */,
+				036ED0A1148CB42D00B07631 /* libz.dylib */,
 				03E405F6148A31DC0027C4D7 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -214,6 +212,8 @@
 		03E405F8148A31DC0027C4D7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				036ED0A5148CB46300B07631 /* SystemConfiguration.framework */,
+				036ED0A3148CB44D00B07631 /* MobileCoreServices.framework */,
 				036ED09F148CAC1700B07631 /* CFNetwork.framework */,
 				03E405F9148A31DC0027C4D7 /* UIKit.framework */,
 				03E405FB148A31DC0027C4D7 /* Foundation.framework */,
